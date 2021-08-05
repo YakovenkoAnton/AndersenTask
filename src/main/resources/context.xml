@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="poolName" value="springHikariCP"/>
+        <property name="connectionTestQuery" value="SELECT 1"/>
+        <property name="dataSourceClassName" value="org.postgresql.ds.PGSimpleDataSource"/>
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="url">jdbc:postgresql://localhost:5432/postgres</prop>
+                <prop key="user">postgres</prop>
+                <prop key="password">postgres</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- HikariCP configuration -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg ref="hikariConfig"/>
+    </bean>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource"
+                  ref="dataSource"/>
+        <property name="packagesToScan"
+                  value="av.task2.entity"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">
+                    update
+                </prop>
+                <prop key="hibernate.dialect">
+                    org.hibernate.dialect.PostgreSQL95Dialect
+                </prop>
+            </props>
+        </property>
+        <property name="mappingDirectoryLocations" value="mapping"/>
+
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="jpaEmployeeDAO" class="av.task2.dao.JPAEmployeeDAO">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="jpaFeedbackDAO" class="av.task2.dao.JPAFeedbackDAO">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="jpaProjectDAO" class="av.task2.dao.JPAProjectDAO">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="jpaTeamDAO" class="av.task2.dao.JPATeamDAO">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+
+
+
+
+
+
+</beans>

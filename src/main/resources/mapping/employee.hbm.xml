@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="av.task2.entity.Employee" table="employee">
+
+        <id name="id" type="java.lang.Long" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <property name="surname" column="surname" type="string"/>
+        <property name="midname" column="midname" type="string"/>
+        <property name="email" column="email" type="string"/>
+        <property name="phone" column="phone" type="string"/>
+        <property name="birthdate" column="birthdate" type="java.time.LocalDate"/>
+        <property name="experience" column="experience" type="byte"/>
+        <property name="employmentDate" column="employment_date" type="java.time.LocalDate"/>
+        <property name="englishLevel" column="english_level" type="string"/>
+        <property name="skype" column="skype" type="string"/>
+        <many-to-one name="project" class="av.task2.entity.Project" cascade="persist merge" lazy="false">
+            <column name="project_id" />
+        </many-to-one>
+        <property name="developerLevel" column="developer_level">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">av.task2.entity.DevLevel</param>
+                <param name="type">12</param>
+            </type>
+        </property>
+
+<!--        <one-to-one name="feedback" class="av.task2.entity.Feedback" cascade="persist merge" />-->
+
+        <many-to-one name="feedback" class="av.task2.entity.Feedback" cascade="persist merge" unique="true" lazy="false">
+            <column name="feedback_id" />
+        </many-to-one>
+
+
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="av.task2.entity.Team" table="team">
+
+        <id name="id" type="java.lang.Long" column="id">
+            <generator class="native"/>
+        </id>
+
+        <set name="employees" table="employee"
+             inverse="false" lazy="false" cascade="all">
+            <key>
+                <column name="team_id" />
+            </key>
+            <one-to-many class="av.task2.entity.Employee" />
+        </set>
+
+    </class>
+</hibernate-mapping>
+
+
