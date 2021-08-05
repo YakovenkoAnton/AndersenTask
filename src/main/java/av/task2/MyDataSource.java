@@ -6,10 +6,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class DataSource {
+public class MyDataSource {
 
     private static HikariConfig config = new HikariConfig();
-    private static HikariDataSource ds;
+    public static HikariDataSource ds;
 
     static {
         config.setJdbcUrl( "jdbc:postgresql://localhost:5432/postgres" );
@@ -21,7 +21,7 @@ public class DataSource {
         ds = new HikariDataSource( config );
     }
 
-    private DataSource() {}
+    private MyDataSource() {}
 
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
